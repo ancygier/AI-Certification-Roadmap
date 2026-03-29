@@ -4,6 +4,10 @@ A dynamic, interactive, and visual roadmap of formal, proctored Artificial Intel
 
 Inspired by the legendary [Security Certification Roadmap by Paul Jerimy](https://pauljerimy.com/security-certification-roadmap/), this project aims to help professionals navigate the rapidly evolving landscape of AI certifications.
 
+## 🌐 Live Demo
+
+[**➡️ View the Live Roadmap Here**](https://ancygier.github.io/AI-Certification-Roadmap/)
+
 ## ✨ Features
 
 * **100% Client-Side:** Built with pure HTML, CSS (Grid/Flexbox), and Vanilla JavaScript. No build tools or backend required.
@@ -14,16 +18,13 @@ Inspired by the legendary [Security Certification Roadmap by Paul Jerimy](https:
 
 * **Smart Tooltips:** Hover over any certification card to see its price and a quick description. The UI automatically adjusts tooltip positioning to prevent screen overflow.
 
-## 🚀 How to Use / View
+## 🚀 How to Use / View Locally
 
-You can view the roadmap directly in your browser:
+You can also view the roadmap directly in your browser offline:
 
 1. Clone or download this repository.
 
 2. Open the `index.html` file in any modern web browser.
-
-*(If hosted on GitHub Pages):*
-[**➡️ View the Live Roadmap Here**](https://ancygier.github.io/AI-Certification-Roadmap/)
 
 ## 🤝 Contributing
 
