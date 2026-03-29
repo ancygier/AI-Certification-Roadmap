@@ -48,4 +48,4 @@ The AI landscape changes incredibly fast. If you notice an outdated certificatio
 
 ## 📝 License
 
-This project is open-source and available for the community.
+This project is licensed under the MIT License - see the `LICENSE` file for details.
