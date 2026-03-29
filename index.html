@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Certification Roadmap - Interactive V3</title>
+    <style>
+        /* CSS Reset i podstawy */
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0d0d12; /* Nieco jaśniejszy, głęboki granat zamiast czerni */
+            --bg-card: #1c1c21;
+            --bg-card-hover: #25252e;
+            --text-main: #ffffff;
+            --text-muted: #9a9a9e;
+            --accent: #4285f4;
+            --instruction: #ffca28;
+            --modal-bg: rgba(0, 0, 0, 0.9);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            /* Zmodernizowane tło: mocniejsze poświaty i techniczna siatka */
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(66, 133, 244, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(156, 39, 176, 0.1) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px;
+            overflow-x: hidden;
+        }
+
+        /* Sekcja Nagłówka */
+        .header-section {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+        h1 { margin-bottom: 5px; font-size: 38px; letter-spacing: 1px; font-weight: 800; }
+        
+        /* Styl dla informacji o aktualizacji */
+        .update-badge {
+            display: inline-block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .intro-text {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        p.subtitle {
+            color: var(--instruction);
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Filtry Ścieżek */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 45px;
+        }
+        .filter-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+        }
+        .filter-btn:hover { background-color: rgba(255, 255, 255, 0.1); color: #fff; border-color: rgba(255, 255, 255, 0.2); }
+        .filter-btn.active {
+            background-color: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        }
+
+        /* Kontener przewijania tabeli */
+        .table-overflow-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            margin-bottom: 50px;
+            border-radius: 12px;
+        }
+
+        .table-overflow-wrapper::-webkit-scrollbar { height: 6px; }
+        .table-overflow-wrapper::-webkit-scrollbar-track { background: transparent; }
+        .table-overflow-wrapper::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        .table-overflow-wrapper::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        /* Siatka Mapy */
+        .roadmap-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            min-width: 1200px;
+        }
+        .col-header {
+            background-color: #1a1a1e;
+            padding: 18px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            border-bottom: 2px solid #333;
+            border-radius: 8px 8px 0 0;
+            text-transform: uppercase;
+            color: #eee;
+            letter-spacing: 1px;
+        }
+        .tier-label {
+            grid-column: span 6;
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 12px 18px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-left: 4px solid #fff;
+            color: #aaa;
+            font-size: 11px;
+        }
+        .cell {
+            background-color: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(4px);
+            padding: 12px;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: none;
+        }
+
+        /* Karty */
+        .cert-card {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            padding: 16px 14px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            text-align: center;
+            border-left: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            line-height: 1.4;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .cert-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            background-color: var(--bg-card-hover);
+            z-index: 10;
+        }
+        .cert-card.dimmed {
+            opacity: 0.1;
+            transform: none;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+
+        /* Tooltip CSS */
+        .tooltip {
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            background-color: #141416;
+            color: #fff;
+            text-align: left;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #3a3a3c;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            font-size: 12.5px;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px;
+            border-style: solid;
+            border-color: #3a3a3c transparent transparent transparent;
+        }
+        .cert-card.edge-left .tooltip { left: -10px; transform: none; }
+        .cert-card.edge-left .tooltip::after { left: 30px; transform: none; }
+        .cert-card.edge-right .tooltip { left: auto; right: -10px; transform: none; }
+        .cert-card.edge-right .tooltip::after { left: auto; right: 30px; transform: none; }
+
+        .cert-card:hover .tooltip { opacity: 1; visibility: visible; bottom: 120%; }
+
+        .tooltip-note {
+            display: block;
+            margin-top: 10px;
+            color: #8e8e93;
+            line-height: 1.6;
+        }
+
+        /* Provider Colors */
+        .ms { border-left-color: #00a4ef; } 
+        .aws { border-left-color: #ff9900; } 
+        .google { border-left-color: #4285f4; } 
+        .nvidia { border-left-color: #76b900; } 
+        .comptia { border-left-color: #ff3333; } 
+        .data { border-left-color: #ff3621; } 
+        .gov { border-left-color: #9c27b0; } 
+        .enterprise { border-left-color: #0062ff; } 
+
+        .empty-cell {
+            opacity: 0.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #888;
+            border: 1px dashed rgba(255,255,255,0.1);
+            background: transparent;
+            text-align: center;
+            padding: 15px 10px;
+            font-style: italic;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--modal-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #1c1c21;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 580px;
+            padding: 40px;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: #888;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .close-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .modal-title { margin: 0 0 10px 0; font-size: 26px; color: #fff; padding-right: 40px; font-weight: 800; }
+        .modal-price { color: var(--accent); font-weight: 700; font-size: 16px; margin-bottom: 30px; display: inline-block; background: rgba(66, 133, 244, 0.1); padding: 6px 14px; border-radius: 6px; }
+        
+        .modal-section { margin-bottom: 25px; border-left: 3px solid rgba(255,255,255,0.05); padding-left: 20px; }
+        .modal-section h4 { margin: 0 0 10px 0; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .modal-section p { margin: 0; font-size: 15px; color: #d1d1d6; line-height: 1.7; }
+        
+        .btn-visit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: var(--accent);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-top: 35px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        }
+        .btn-visit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(66, 133, 244, 0.5); filter: brightness(1.1); }
+
+        /* Footery */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+            margin-top: 50px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contribution-section, .maintainer-section {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+        }
+        
+        .contribution-section { border-left: 5px solid var(--accent); }
+        .maintainer-section { border-left: 5px solid var(--instruction); }
+
+        .footer-grid h2 { margin-top: 0; font-size: 22px; color: #fff; margin-bottom: 20px; font-weight: 800; }
+        .footer-grid p { color: #8e8e93; font-size: 14.5px; line-height: 1.7; margin-bottom: 15px; }
+        .footer-grid ul { color: #8e8e93; font-size: 14.5px; padding-left: 20px; }
+        .footer-grid li { margin-bottom: 12px; }
+        .footer-grid a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .footer-grid a:hover { text-decoration: underline; }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .social-btn {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px !important;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .social-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            h1 { font-size: 30px; }
+            .intro-text { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <h1>✨ AI Certification Roadmap</h1>
+        <div class="update-badge">
+            Last Updated: <span id="current-date"></span>
+        </div>
+        
+        <div class="intro-text">
+            This roadmap focuses on <strong>formal, proctored industry-recognized certifications</strong>. Generic course badges and "certificates of completion" are intentionally excluded to maintain high signal quality. It is a decision-support system designed to distinguish between <strong>Cloud Implementation (API-based)</strong> and <strong>Deep Technical Engineering</strong>.
+        </div>
+        <p class="subtitle">👉 Click a certification for a deep dive. Hover for quick price and details.</p>
+        
+        <div class="filter-container" id="filters">
+            <button class="filter-btn active" data-path="all">All Paths</button>
+            <button class="filter-btn" data-path="strategy">Path A: AI Strategy & Decision-Making</button>
+            <button class="filter-btn" data-path="builder">Path B: Cloud AI Builder</button>
+            <button class="filter-btn" data-path="engineer">Path C: ML & Production Engineering</button>
+            <button class="filter-btn" data-path="trust">Path D: Trust, Risk & Security</button>
+        </div>
+    </div>
+
+    <div class="table-overflow-wrapper">
+        <div class="roadmap-container">
+            <!-- Headers -->
+            <div class="col-header">1. AI Fundamentals</div>
+            <div class="col-header">2. Data Engineering</div>
+            <div class="col-header">3. Machine Learning</div>
+            <div class="col-header">4. Generative AI & LLM</div>
+            <div class="col-header">5. MLOps & Infra</div>
+            <div class="col-header">6. Trust, Risk & Security</div>
+
+            <!-- TIER 1 -->
+            <div class="tier-label">Tier 1: Fundamentals (Foundations)</div>
+            <div class="cell" id="c-t1-fund"></div>
+            <div class="cell" id="c-t1-data"></div>
+            <div class="cell" id="c-t1-ml"><div class="empty-cell">No formal proctored exams</div></div>
+            <div class="cell" id="c-t1-genai"><div class="empty-cell">No formal proctored exams</div></div>
+            <div class="cell" id="c-t1-mlops"><div class="empty-cell">Requires tech foundation</div></div>
+            <div class="cell" id="c-t1-gov"></div>
+
+            <!-- TIER 2 -->
+            <div class="tier-label" style="border-left-color: #ff9800;">Tier 2: Associate (Applied / Implementation)</div>
+            <div class="cell" id="c-t2-fund"><div class="empty-cell">Transition to Strategy/Delivery</div></div>
+            <div class="cell" id="c-t2-data"></div>
+            <div class="cell" id="c-t2-ml"></div>
+            <div class="cell" id="c-t2-genai"></div>
+            <div class="cell" id="c-t2-mlops"></div>
+            <div class="cell" id="c-t2-gov"></div>
+
+            <!-- TIER 3 -->
+            <div class="tier-label" style="border-left-color: #f44336;">Tier 3: Professional (Advanced / Architecture)</div>
+            <div class="cell" id="c-t3-fund"><div class="empty-cell">Roles focus on Organizational Change</div></div>
+            <div class="cell" id="c-t3-data"></div>
+            <div class="cell" id="c-t3-ml"></div>
+            <div class="cell" id="c-t3-genai"></div>
+            <div class="cell" id="c-t3-mlops"></div>
+            <div class="cell" id="c-t3-gov"></div>
+        </div>
+    </div>
+
+    <div class="footer-grid">
+        <div class="contribution-section">
+            <h2>🤝 Contributions & Updates</h2>
+            <p>This roadmap is a living document. Notice a missing certification, an outdated price, or a broken link? We only accept formal, proctored industry certifications.</p>
+            <ul>
+                <li><strong>GitHub Repository:</strong> Visit <strong>my</strong> <a href="https://github.com/ancygier/AI-Certification-Roadmap" target="_blank" rel="noopener noreferrer">GitHub Repo</a> to propose changes or view the source.</li>
+                <li><strong>How to contribute:</strong> You can report bugs or suggest new certifications by opening an <strong>Issue</strong>, or fork the project and submit a <strong>Pull Request (PR)</strong> directly with your proposed changes.</li>
+                <li><strong>Criteria:</strong> All submissions are reviewed for market rigor and proctoring status.</li>
+            </ul>
+        </div>
+
+        <div class="maintainer-section">
+            <h2>👤 Contact</h2>
+            <p>Curated and maintained by <strong>Kamil Ancygier</strong>. Please reach out via LinkedIn for collaboration, inquiries, or suggestions regarding the AI certification landscape.</p>
+            <div class="social-links">
+                <a href="https://linkedin.com/in/ancygier" class="social-btn" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TEMPLATE -->
+    <div class="modal-overlay" id="certModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title" id="m-title">Title</h2>
+            <div class="modal-price" id="m-price">$0</div>
+            
+            <div class="modal-section">
+                <h4>🎯 Best For</h4>
+                <p id="m-bestfor">Description</p>
+            </div>
+            
+            <div class="modal-section">
+                <h4>✅ What it Proves</h4>
+                <p id="m-proves" style="color: #81c784;">Proven skills</p>
+            </div>
+            
+            <div class="modal-section">
+                <h4>❌ What it does NOT prove</h4>
+                <p id="m-notproves" style="color: #e57373;">Limits of the cert</p>
+            </div>
+            
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-visit" id="m-url">Official Exam Page</a>
+        </div>
+    </div>
+
+    <script>
+        // Automatyczna data w nagłówku
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', options);
+
+        const certData = [
+            // --- TIER 1 ---
+            {
+                id: "isaca-ai", cellId: "c-t1-fund", providerClass: "gov", paths: ["strategy", "trust"],
+                title: "ISACA: AI Fundamentals", price: "~$149", url: "https://www.isaca.org/credentialing/artificial-intelligence-fundamentals",
+                shortDesc: "Focus on business risk and governance. Best for auditors.",
+                bestFor: "Managers, Auditors, and Compliance Officers starting with AI.",
+                proves: "Basic literacy in AI risk frameworks and business terminology.",
+                doesNotProve: "Any technical capability to build or tune a model."
+            },
+            {
+                id: "ms-ai900", cellId: "c-t1-fund", providerClass: "ms", paths: ["strategy", "builder"],
+                title: "MS: AI-900 (Azure)", price: "$99", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/",
+                shortDesc: "Entry-level cloud literacy. Covers Azure AI ecosystem.",
+                bestFor: "Beginners, Pre-sales, and Product Managers.",
+                proves: "Ability to navigate Azure's high-level AI services (Azure OpenAI, Vision).",
+                doesNotProve: "ML engineering skills or algorithm knowledge."
+            },
+            {
+                id: "aws-aipract", cellId: "c-t1-fund", providerClass: "aws", paths: ["strategy", "builder"],
+                title: "AWS: AI Practitioner", price: "$100", url: "https://aws.amazon.com/certification/certified-ai-practitioner/",
+                shortDesc: "New AWS entry-point focused on Bedrock and GenAI fundamentals.",
+                bestFor: "Beginners and Tech Leads entering the AWS AI stack.",
+                proves: "Knowledge of AWS GenAI terminology and service architecture.",
+                doesNotProve: "Production-ready deployment or fine-tuning capability."
+            },
+            {
+                id: "comptia-data", cellId: "c-t1-data", providerClass: "comptia", paths: ["engineer", "strategy"],
+                title: "CompTIA: Data+", price: "$255", url: "https://www.comptia.org/certifications/data",
+                shortDesc: "Vendor-neutral intro to data management and analytics.",
+                bestFor: "Data Analysts and Junior Data Engineers.",
+                proves: "Understanding of statistical foundations and data governance hygiene.",
+                doesNotProve: "Cloud platform engineering or ML modeling."
+            },
+            {
+                id: "ms-dp900", cellId: "c-t1-data", providerClass: "ms", paths: ["builder", "engineer"],
+                title: "MS: DP-900", price: "$99", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-fundamentals/",
+                shortDesc: "Foundations of relational and NoSQL databases in Azure.",
+                bestFor: "Junior Data Pros.",
+                proves: "Theoretical knowledge of Azure data storage options.",
+                doesNotProve: "Actual engineering or ETL development skills."
+            },
+            {
+                id: "certnexus-ceet", cellId: "c-t1-gov", providerClass: "gov", paths: ["trust", "strategy"],
+                title: "CertNexus: CEET", price: "~$250", url: "https://certnexus.com/certification/ceet/",
+                shortDesc: "Ethics-oriented cert recognized by the US Department of Defense.",
+                bestFor: "Ethics Officers and Policy Advisors.",
+                proves: "Awareness of bias, fairness, and ethical frameworks in emerging tech.",
+                doesNotProve: "Technical risk mitigation or security hardening."
+            },
+            {
+                id: "iso42001-found", cellId: "c-t1-gov", providerClass: "gov", paths: ["trust", "strategy"],
+                title: "PECB: ISO 42001 Found.", price: "~$500", url: "https://pecb.com/en/education-and-certification-for-individuals/iso-iec-42001",
+                shortDesc: "Entry level for AI Management System standard.",
+                bestFor: "Compliance beginners and Quality Managers.",
+                proves: "Understanding the structure and requirements of the ISO 42001 standard.",
+                doesNotProve: "Auditing skills or technical implementation capability."
+            },
+
+            // --- TIER 2 ---
+            {
+                id: "db-de-assoc", cellId: "c-t2-data", providerClass: "data", paths: ["engineer"],
+                title: "Databricks: Data Eng. Assoc.", price: "$200", url: "https://www.databricks.com/learn/certification",
+                shortDesc: "Strong signal for modern data engineering pipelines.",
+                bestFor: "Data Engineers and Spark Developers.",
+                proves: "Proficiency in Medallion Architecture and Apache Spark pipelines.",
+                doesNotProve: "Deep ML model training or optimization."
+            },
+            {
+                id: "ms-dp203", cellId: "c-t2-data", providerClass: "ms", paths: ["builder", "engineer"],
+                title: "MS: DP-203", price: "$165", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/",
+                shortDesc: "Core engineering cert for Azure Data stack.",
+                bestFor: "Azure Data Engineers.",
+                proves: "Hands-on usage of Data Factory, Synapse, and Azure Databricks.",
+                doesNotProve: "Platform-agnostic architectural design."
+            },
+            {
+                id: "db-genai-assoc", cellId: "c-t2-genai", providerClass: "data", paths: ["engineer", "builder"],
+                title: "Databricks: GenAI Engineer Assoc.", price: "$200", url: "https://www.databricks.com/learn/certification",
+                shortDesc: "Highly relevant cert for RAG and LLM application pipelines.",
+                bestFor: "AI Application Developers and Data Engineers.",
+                proves: "Competence in building RAG, serving LLMs, and evaluation workflows on Databricks.",
+                doesNotProve: "Deep neural network research or base-model creation."
+            },
+            {
+                id: "google-vertex", cellId: "c-t2-genai", providerClass: "google", paths: ["builder"],
+                title: "Google: Vertex AI / GenAI (Beta)", price: "$200", url: "https://cloud.google.com/learn/certification",
+                shortDesc: "Focus on implementing GenAI solutions on GCP Vertex AI.",
+                bestFor: "GCP Solution Architects and AI Developers.",
+                proves: "Ability to use Google's foundation models and Generative AI Studio.",
+                doesNotProve: "Python/PyTorch-heavy engineering depth."
+            },
+            {
+                id: "ms-ai102", cellId: "c-t2-genai", providerClass: "ms", paths: ["builder"],
+                title: "MS: AI-102 (Azure AI Eng.)", price: "$165", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/",
+                shortDesc: "Industry standard for Azure-applied AI integration.",
+                bestFor: "Software Developers building on top of Azure AI Services.",
+                proves: "Implementation of Azure OpenAI, Cognitive Search, and Speech APIs.",
+                doesNotProve: "Machine Learning theory or model creation from scratch."
+            },
+            {
+                id: "ms-mlops-beta", cellId: "c-t2-mlops", providerClass: "ms", paths: ["engineer", "builder"],
+                title: "MS: Azure AI Ops (Beta)", price: "$165", url: "https://learn.microsoft.com/en-us/credentials/certifications/",
+                shortDesc: "Emerging cert for operationalizing AI solutions (GenAIOps).",
+                bestFor: "MLOps and Platform Engineers on Azure.",
+                proves: "Understanding of deployment pipelines and monitoring for AI on Azure.",
+                doesNotProve: "Advanced model training or hardware optimization."
+            },
+            {
+                id: "comptia-secai", cellId: "c-t2-gov", providerClass: "comptia", paths: ["trust"],
+                title: "CompTIA: SecAI+", price: "$359", url: "https://www.comptia.org/certifications/secai",
+                shortDesc: "Technical defense against AI-specific attacks.",
+                bestFor: "Security Analysts and AI Architects.",
+                proves: "Defense against Prompt Injection, Data Poisoning, and Model Evasion.",
+                doesNotProve: "Policy writing or legal EU AI Act compliance."
+            },
+            {
+                id: "csa-ai-sec", cellId: "c-t2-gov", providerClass: "gov", paths: ["trust"],
+                title: "CSA: AI Safety & Security", price: "~$145", url: "https://cloudsecurityalliance.org/education/ai-safety-and-security/",
+                shortDesc: "Safety frameworks and Zero Trust for AI pipelines.",
+                bestFor: "Cloud Security Architects.",
+                proves: "Knowledge of AI security posture and risk assessment for models.",
+                doesNotProve: "Technical model implementation skills."
+            },
+            {
+                id: "iso42001-imp", cellId: "c-t2-gov", providerClass: "gov", paths: ["trust"],
+                title: "PECB: ISO 42001 Implementer", price: "~$1000", url: "https://pecb.com/en/education-and-certification-for-individuals/iso-iec-42001",
+                shortDesc: "Standard for setting up an AI Management System.",
+                bestFor: "Compliance Officers and Operations Leads.",
+                proves: "Ability to practically implement organizational controls for AI.",
+                doesNotProve: "Ability to conduct third-party external audits."
+            },
+
+            // --- TIER 3 ---
+            {
+                id: "google-ml", cellId: "c-t3-ml", providerClass: "google", paths: ["engineer"],
+                title: "Google: Prof. ML Engineer", price: "$200", url: "https://cloud.google.com/learn/certification/machine-learning-engineer",
+                shortDesc: "Gold standard for production-grade ML on GCP.",
+                bestFor: "Senior ML Engineers.",
+                proves: "High-level design of ML systems and Vertex AI production architecture.",
+                doesNotProve: "Legal/Regulatory readiness."
+            },
+            {
+                id: "aws-ml-spec", cellId: "c-t3-ml", providerClass: "aws", paths: ["engineer"],
+                title: "AWS: ML Specialty", price: "$300", url: "https://aws.amazon.com/certification/certified-machine-learning-specialty/",
+                shortDesc: "One of the toughest AWS certifications. High market signal.",
+                bestFor: "Senior AWS ML Architects.",
+                proves: "Deep knowledge of model training, evaluation, and SageMaker production.",
+                doesNotProve: "Governance or legal compliance."
+            },
+            {
+                id: "sas-ai-ml", cellId: "c-t3-ml", providerClass: "enterprise", paths: ["engineer", "strategy"],
+                title: "SAS: AI & Machine Learning Prof.", price: "~$180+", url: "https://www.sas.com/en_us/certification.html",
+                shortDesc: "Strong signal for Banking, Pharma, and Regulated Enterprise.",
+                bestFor: "Data Scientists in highly regulated corporate environments.",
+                proves: "Proficiency in model management and statistical rigor in SAS Viya.",
+                doesNotProve: "Speed in Python-heavy startup prototyping."
+            },
+            {
+                id: "nv-genl-prof", cellId: "c-t3-genai", providerClass: "nvidia", paths: ["engineer"],
+                title: "NVIDIA: NCP-GENL", price: "~$135", url: "https://learn.nvidia.com/certification",
+                shortDesc: "Technical mastery of LLM deployment on hardware clusters.",
+                bestFor: "Systems Architects and GPU Infrastructure Engineers.",
+                proves: "Ability to deploy large models across hardware clusters and scale them.",
+                doesNotProve: "Business strategy or prompt design."
+            },
+            {
+                id: "iapp-aigp", cellId: "c-t3-gov", providerClass: "gov", paths: ["trust", "strategy"],
+                title: "IAPP: AIGP (Governance Prof.)", price: "$799", url: "https://iapp.org/certify/aigp/",
+                shortDesc: "Global gold standard for AI policy and compliance professionals.",
+                bestFor: "Privacy Officers, Legal Counsel, and GRC Leads.",
+                proves: "Deep knowledge of EU AI Act, risk management frameworks, and policy.",
+                doesNotProve: "Any technical model deployment or coding ability."
+            },
+            {
+                id: "iso42001-auditor", cellId: "c-t3-gov", providerClass: "gov", paths: ["trust"],
+                title: "PECB: ISO 42001 Auditor", price: "~$1200", url: "https://pecb.com/en/education-and-certification-for-individuals/iso-iec-42001",
+                shortDesc: "Top-tier cert for formal AI auditing.",
+                bestFor: "Third-party auditors and lead consultants.",
+                proves: "Methodical competence to conduct external audits of AI systems.",
+                doesNotProve: "Actual model fine-tuning or programming capacity."
+            }
+        ];
+
+        function renderRoadmap() {
+            certData.forEach(cert => {
+                const cell = document.getElementById(cert.cellId);
+                if (!cell) return;
+
+                let edgeClass = '';
+                if (cert.cellId.endsWith('-fund')) edgeClass = 'edge-left';
+                if (cert.cellId.endsWith('-gov')) edgeClass = 'edge-right';
+
+                const card = document.createElement('div');
+                card.className = `cert-card ${cert.providerClass} ${edgeClass}`;
+                card.dataset.id = cert.id; 
+                card.dataset.paths = cert.paths.join(','); 
+                card.textContent = cert.title;
+
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltip';
+                tooltip.innerHTML = `<strong>Price:</strong> ${cert.price}<br><span class="tooltip-note">${cert.shortDesc}</span>`;
+                card.appendChild(tooltip);
+                
+                card.addEventListener('click', () => openModal(cert));
+                cell.appendChild(card);
+            });
+        }
+
+        const modal = document.getElementById('certModal');
+        function openModal(cert) {
+            document.getElementById('m-title').textContent = cert.title;
+            document.getElementById('m-price').textContent = `Price: ${cert.price}`;
+            document.getElementById('m-bestfor').textContent = cert.bestFor;
+            document.getElementById('m-proves').textContent = cert.proves;
+            document.getElementById('m-notproves').textContent = cert.doesNotProve;
+            document.getElementById('m-url').href = cert.url;
+            modal.classList.add('active');
+        }
+
+        function closeModal() { modal.classList.remove('active'); }
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const selectedPath = e.target.dataset.path;
+                const allCards = document.querySelectorAll('.cert-card');
+
+                allCards.forEach(card => {
+                    const cardPaths = card.dataset.paths.split(',');
+                    if (selectedPath === 'all' || cardPaths.includes(selectedPath)) {
+                        card.classList.remove('dimmed');
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                });
+            });
+        });
+
+        window.onload = renderRoadmap;
+    </script>
+</body>
+</html>
