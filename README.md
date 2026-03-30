@@ -1,4 +1,4 @@
-# 🗺️ AI Certification Roadmap 2026
+# 🗺️ AI Certification Roadmap
 
 A dynamic, interactive, and visual roadmap of formal, proctored Artificial Intelligence and Machine Learning certifications.
 
